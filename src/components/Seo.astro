@@ -1,0 +1,94 @@
+---
+import { profile } from '@/data/profile';
+import { type Lang, defaultLang, languages, langs, pick, rssUrl } from '@/i18n';
+
+export interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** Path of this page in each language that has it, e.g. { pl: '/o-mnie', en: '/en/about', … } */
+  alternates: Partial<Record<Lang, string>>;
+  type?: 'website' | 'article';
+  image?: string;
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  tags?: string[];
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>[];
+}
+
+const {
+  lang,
+  title,
+  description,
+  alternates,
+  type = 'website',
+  image = '/og-default.png',
+  publishedTime,
+  modifiedTime,
+  tags = [],
+  noindex = false,
+  jsonLd = [],
+} = Astro.props;
+
+const site = Astro.site!;
+const canonical = new URL(alternates[lang] ?? Astro.url.pathname, site).href;
+const imageUrl = new URL(image, site).href;
+const fullTitle = title.includes(profile.name) ? title : `${title} | ${profile.name}`;
+const locale = languages[lang].og;
+const altLocales = (Object.keys(alternates) as Lang[]).filter((l) => l !== lang).map((l) => languages[l].og);
+const xDefault = alternates[defaultLang] ?? alternates[lang];
+
+const graph = [
+  {
+    '@type': 'Person',
+    '@id': `${site.href}#person`,
+    name: profile.name,
+    url: site.href,
+    jobTitle: pick(profile.role, lang),
+    sameAs: profile.socials.map((s) => s.url).filter((u) => !u.includes('TODO')),
+  },
+  {
+    '@type': 'WebSite',
+    '@id': `${site.href}#website`,
+    url: site.href,
+    name: profile.name,
+    inLanguage: langs.map((l) => languages[l].hreflang),
+    publisher: { '@id': `${site.href}#person` },
+  },
+  ...jsonLd,
+];
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta name="robots" content={noindex ? 'noindex,follow' : 'index,follow,max-image-preview:large,max-snippet:-1'} />
+<meta name="author" content={profile.name} />
+{
+  (Object.entries(alternates) as [Lang, string][]).map(([l, path]) => (
+    <link rel="alternate" hreflang={languages[l].hreflang} href={new URL(path, site).href} />
+  ))
+}
+{xDefault && <link rel="alternate" hreflang="x-default" href={new URL(xDefault, site).href} />}
+<link rel="alternate" type="application/rss+xml" title={`${profile.name} — Blog (${lang.toUpperCase()})`} href={rssUrl(lang)} />
+
+<meta property="og:site_name" content={profile.name} />
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content={locale} />
+{altLocales.map((l) => <meta property="og:locale:alternate" content={l} />)}
+{publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
+{modifiedTime && <meta property="article:modified_time" content={modifiedTime.toISOString()} />}
+{tags.map((tag) => <meta property="article:tag" content={tag} />)}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+
+<script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })} />

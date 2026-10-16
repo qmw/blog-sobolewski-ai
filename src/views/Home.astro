@@ -1,0 +1,89 @@
+---
+// The home page is the news feed: the newest post large, then the next ones as rows.
+import Base from '@/layouts/Base.astro';
+import FeaturedPost from '@/components/FeaturedPost.astro';
+import PostRow from '@/components/PostRow.astro';
+import { type Lang, route, routeAlternates, rssUrl, t, langs, languages, postUrl } from '@/i18n';
+import { profile } from '@/data/profile';
+import { getPosts, parseId } from '@/lib/blog';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const tr = t(lang);
+const alternates = routeAlternates('home');
+const all = await getPosts(lang);
+const shown = all.slice(0, 10);
+const [featured, ...rest] = shown;
+const site = Astro.site!;
+const jsonLd = shown.length
+  ? [
+      {
+        '@type': 'ItemList',
+        itemListElement: shown.map((p, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: p.data.title,
+          url: new URL(postUrl(lang, parseId(p.id).slug), site).href,
+        })),
+      },
+    ]
+  : [];
+---
+
+<Base lang={lang} title={tr('home.title')} description={tr('blog.lead')} alternates={alternates} jsonLd={jsonLd}>
+  <section class="container-page pb-6 pt-8 sm:pt-10">
+    <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+      <h1 class="display text-3xl sm:text-4xl">{tr('home.heading')}</h1>
+      <p class="text-muted text-pretty">{tr('home.lead')}</p>
+    </div>
+    <p class="meta mt-4 flex flex-wrap items-center gap-x-3 gap-y-1">
+      <span>
+        {tr('home.by')} <a href={route('about', lang)} class="text-fg hover:text-accent">{profile.name}</a>
+      </span>
+      <span aria-hidden="true">·</span>
+      <a href={rssUrl(lang)} class="hover:text-accent">{tr('blog.rss')}</a>
+      <span aria-hidden="true">·</span>
+      <span class="flex flex-wrap items-center gap-x-2" title={tr('home.languages')}>
+        {
+          langs.map((l) => (
+            <a
+              href={alternates[l]}
+              hreflang={languages[l].hreflang}
+              lang={languages[l].hreflang}
+              class:list={['uppercase hover:text-accent', l === lang && 'text-accent']}
+              aria-current={l === lang ? 'true' : undefined}
+              title={languages[l].name}
+            >
+              {l}
+            </a>
+          ))
+        }
+      </span>
+    </p>
+  </section>
+
+  <section class="container-page" aria-labelledby="latest">
+    <h2 id="latest" class="sr-only">{tr('blog.latest')}</h2>
+    {
+      featured ? (
+        <>
+          <FeaturedPost post={featured} lang={lang} />
+          <div class="mt-10">
+            {rest.map((post) => (
+              <PostRow post={post} lang={lang} as="h3" />
+            ))}
+          </div>
+          <div class="border-t border-line pt-8">
+            <a href={route('blog', lang)} class="btn btn-ghost">
+              {tr('blog.all')} ({all.length}) →
+            </a>
+          </div>
+        </>
+      ) : (
+        <p class="border-t border-line pt-8 text-muted">{tr('blog.empty')}</p>
+      )
+    }
+  </section>
+</Base>

@@ -1,0 +1,47 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/jetbrains-mono';
+import '@fontsource-variable/newsreader/wght.css';
+import '@fontsource-variable/newsreader/wght-italic.css';
+import '@/styles/global.css';
+import Seo, { type Props as SeoProps } from '@/components/Seo.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { t, languages } from '@/i18n';
+
+export type Props = SeoProps;
+const props = Astro.props;
+const tr = t(props.lang);
+---
+
+<!doctype html>
+<html lang={languages[props.lang].hreflang} dir={languages[props.lang].dir} class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Resolve the theme before first paint: dark unless the visitor chose light. -->
+    <script is:inline>
+      (function () {
+        var dark = true;
+        try { dark = localStorage.getItem('theme') !== 'light'; } catch (e) {}
+        document.documentElement.classList.toggle('dark', dark);
+        document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+      })();
+    </script>
+    <meta name="theme-color" content="#0c0d10" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="generator" content={Astro.generator} />
+    <Seo {...props} />
+  </head>
+  <body class="flex min-h-dvh flex-col">
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 btn btn-primary">
+      {tr('nav.skip')}
+    </a>
+    <Header lang={props.lang} alternates={props.alternates} />
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <Footer lang={props.lang} alternates={props.alternates} />
+  </body>
+</html>

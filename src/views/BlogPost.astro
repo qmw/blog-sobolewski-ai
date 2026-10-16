@@ -1,0 +1,178 @@
+---
+import { render } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import PostRow from '@/components/PostRow.astro';
+import { type Lang, route, postUrl, t, pick, formatDate, languages } from '@/i18n';
+import { profile } from '@/data/profile';
+import { adjacentPosts, parseId, postAlternates, readingMinutes, relatedPosts, type Post } from '@/lib/blog';
+
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+const { lang } = parseId(post.id) as { lang: Lang };
+const tr = t(lang);
+const { Content, headings } = await render(post);
+const toc = headings.filter((h) => h.depth === 2);
+const alternates = await postAlternates(post);
+const translations = (Object.entries(alternates) as [Lang, string][]).filter(([l]) => l !== lang);
+const { newer, older } = await adjacentPosts(post, lang);
+const related = await relatedPosts(post, lang, 2);
+const site = Astro.site!;
+const url = new URL(alternates[lang]!, site).href;
+const { title, description, pubDate, updatedDate, tags, draft } = post.data;
+
+const jsonLd = [
+  {
+    '@type': 'BlogPosting',
+    '@id': `${url}#article`,
+    headline: title,
+    description,
+    inLanguage: languages[lang].hreflang,
+    datePublished: pubDate.toISOString(),
+    dateModified: (updatedDate ?? pubDate).toISOString(),
+    author: { '@id': `${site.href}#person` },
+    publisher: { '@id': `${site.href}#person` },
+    mainEntityOfPage: url,
+    keywords: tags.join(', '),
+    image: new URL('/og-default.png', site).href,
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: tr('nav.home'), item: new URL(route('home', lang), site).href },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: new URL(route('blog', lang), site).href },
+      { '@type': 'ListItem', position: 3, name: title, item: url },
+    ],
+  },
+];
+const navLink = (p: Post) => postUrl(lang, parseId(p.id).slug);
+---
+
+<Base
+  lang={lang}
+  title={title}
+  description={description}
+  alternates={alternates}
+  type="article"
+  publishedTime={pubDate}
+  modifiedTime={updatedDate}
+  tags={tags}
+  noindex={draft}
+  jsonLd={jsonLd}
+>
+  <article>
+    <header class="container-page pt-14 sm:pt-20">
+      <nav aria-label="Breadcrumb" class="meta">
+        <a href={route('blog', lang)} class="hover:text-accent">{tr('blog.back')}</a>
+      </nav>
+      <h1 class="display mt-8 max-w-4xl text-4xl sm:text-6xl">{title}</h1>
+      <p class="mt-6 max-w-2xl text-lg text-muted text-pretty sm:text-xl">{description}</p>
+      <p class="meta mt-6 flex flex-wrap items-center gap-x-3 gap-y-1">
+        <span class="text-fg">{profile.name}</span>
+        <time datetime={pubDate.toISOString()}>{formatDate(pubDate, lang)}</time>
+        <span>{readingMinutes(post.body)} {tr('blog.minRead')}</span>
+        {
+          updatedDate && (
+            <span>
+              {tr('blog.updated')} <time datetime={updatedDate.toISOString()}>{formatDate(updatedDate, lang)}</time>
+            </span>
+          )
+        }
+        {draft && <span class="rounded bg-accent-soft px-1.5 text-accent">DRAFT</span>}
+      </p>
+      {
+        translations.length > 0 && (
+          <p class="mt-5 flex flex-wrap items-center gap-2 text-sm text-muted">
+            <span class="me-1">{tr('blog.translations')}</span>
+            {translations.map(([l, href]) => (
+              <a href={href} hreflang={languages[l].hreflang} lang={languages[l].hreflang} dir={languages[l].dir} class="pill hover:border-accent hover:text-accent">
+                {languages[l].name}
+              </a>
+            ))}
+          </p>
+        )
+      }
+    </header>
+
+    <div class="container-read mt-12">
+      {
+        toc.length >= 3 && (
+          <details class="group/toc mb-10 rounded-2xl border border-line bg-elev px-5 py-4">
+            <summary class="meta flex cursor-pointer list-none items-center justify-between uppercase tracking-[0.18em] [&::-webkit-details-marker]:hidden">
+              {tr('post.toc')}
+              <span class="transition-transform group-open/toc:rotate-180" aria-hidden="true">▾</span>
+            </summary>
+            <ol class="mt-4 space-y-2 text-sm">
+              {toc.map((h) => (
+                <li>
+                  <a href={`#${h.slug}`} class="text-muted hover:text-accent">
+                    {h.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </details>
+        )
+      }
+      <div class="prose-site">
+        <Content />
+      </div>
+
+      <footer class="mt-14 border-t border-line pt-8">
+        {
+          tags.length > 0 && (
+            <ul class="flex flex-wrap gap-2">
+              {tags.map((tag) => (
+                <li class="pill">{tag}</li>
+              ))}
+            </ul>
+          )
+        }
+        <aside class="card mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p class="display text-2xl">{profile.name}</p>
+            <p class="mt-1 text-sm text-muted">{pick(profile.role, lang)}</p>
+          </div>
+          <a href={route('about', lang)} class="btn btn-ghost shrink-0">{tr('post.authorMore')} →</a>
+        </aside>
+      </footer>
+    </div>
+  </article>
+
+  {
+    (newer || older) && (
+      <nav class="container-read mt-10" aria-label={tr('blog.all')}>
+        <div class="grid gap-4 sm:grid-cols-2">
+          {older ? (
+            <a href={navLink(older)} class="card group hover:border-accent">
+              <p class="meta">← {tr('post.older')}</p>
+              <p class="mt-2 font-medium leading-snug group-hover:text-accent">{older.data.title}</p>
+            </a>
+          ) : (
+            <span />
+          )}
+          {newer && (
+            <a href={navLink(newer)} class="card group text-end hover:border-accent">
+              <p class="meta">{tr('post.newer')} →</p>
+              <p class="mt-2 font-medium leading-snug group-hover:text-accent">{newer.data.title}</p>
+            </a>
+          )}
+        </div>
+      </nav>
+    )
+  }
+
+  {
+    related.length > 0 && (
+      <section class="container-page mt-20" aria-labelledby="related">
+        <h2 id="related" class="eyebrow">{tr('post.related')}</h2>
+        <div class="mt-6">
+          {related.map((p) => (
+            <PostRow post={p} lang={lang} as="h3" />
+          ))}
+        </div>
+      </section>
+    )
+  }
+</Base>

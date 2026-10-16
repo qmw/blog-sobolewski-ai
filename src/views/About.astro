@@ -1,0 +1,67 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { type Lang, route, routeAlternates, t, pick, langs, languages } from '@/i18n';
+import { profile, publicSocials } from '@/data/profile';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const tr = t(lang);
+const title = `${tr('nav.about')} — ${profile.name}`;
+const alternates = routeAlternates('about');
+---
+
+<Base lang={lang} title={title} description={pick(profile.intro, lang)} alternates={alternates}>
+  <PageHeader eyebrow={tr('nav.about')} title={pick(profile.headline, lang)} lead={pick(profile.intro, lang)} />
+  <section class="container-page grid gap-12 lg:grid-cols-[1fr_18rem] lg:gap-20">
+    <div class="prose-site max-w-[44rem]">
+      {pick(profile.bio, lang).map((p) => <p>{p}</p>)}
+    </div>
+    <aside class="space-y-8 text-sm lg:border-s lg:border-line lg:ps-8">
+      <div>
+        <p class="eyebrow">{tr('about.facts')}</p>
+        <dl class="mt-4 space-y-3">
+          <div>
+            <dt class="text-muted">{profile.name}</dt>
+            <dd>{pick(profile.role, lang)}</dd>
+          </div>
+          <div>
+            <dt class="text-muted">{tr('about.location')}</dt>
+            <dd>{pick(profile.location, lang)}</dd>
+          </div>
+          <div>
+            <dt class="text-muted">{tr('about.languages')}</dt>
+            <dd class="flex flex-wrap gap-x-2">
+              {
+                langs.map((l) => (
+                  <a href={alternates[l]} hreflang={languages[l].hreflang} lang={languages[l].hreflang} class="font-mono text-xs uppercase hover:text-accent">
+                    {l}
+                  </a>
+                ))
+              }
+            </dd>
+          </div>
+        </dl>
+      </div>
+      <div>
+        <p class="eyebrow">{tr('about.elsewhere')}</p>
+        <ul class="mt-4 space-y-2">
+          <li><a href={`mailto:${profile.email}`} class="hover:text-accent">{profile.email}</a></li>
+          {
+            publicSocials.map((s) => (
+              <li>
+                <a href={s.url} rel="me noopener" target="_blank" class="hover:text-accent">
+                  {s.name} ↗
+                </a>
+              </li>
+            ))
+          }
+          <li><a href={profile.openSource} rel="noopener" target="_blank" class="text-muted hover:text-accent">{tr('footer.oss')} ↗</a></li>
+        </ul>
+      </div>
+      <a href={route('contact', lang)} class="btn btn-primary">{tr('cta.contact')} →</a>
+    </aside>
+  </section>
+</Base>

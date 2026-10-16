@@ -1,0 +1,35 @@
+---
+// The newest post, shown large on the home page.
+import { type Lang, formatDate, postUrl, t } from '@/i18n';
+import { parseId, readingMinutes, type Post } from '@/lib/blog';
+
+interface Props {
+  post: Post;
+  lang: Lang;
+}
+const { post, lang } = Astro.props;
+const tr = t(lang);
+const { slug } = parseId(post.id);
+---
+
+<article class="group relative border-t border-line pt-8">
+  <p class="meta flex flex-wrap items-center gap-x-3">
+    <span class="eyebrow">{tr('blog.latest')}</span>
+    <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate, lang)}</time>
+    <span>{readingMinutes(post.body)} {tr('blog.minRead')}</span>
+    {post.data.draft && <span class="rounded bg-accent-soft px-1.5 text-accent">DRAFT</span>}
+  </p>
+  <h2 class="display mt-4 max-w-4xl text-3xl sm:text-5xl transition-colors group-hover:text-accent">
+    <a href={postUrl(lang, slug)} class="link-cover">{post.data.title}</a>
+  </h2>
+  <p class="mt-4 max-w-2xl text-lg text-muted text-pretty">{post.data.description}</p>
+  {
+    post.data.tags.length > 0 && (
+      <ul class="mt-4 flex flex-wrap gap-2">
+        {post.data.tags.map((tag) => (
+          <li class="pill">{tag}</li>
+        ))}
+      </ul>
+    )
+  }
+</article>

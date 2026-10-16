@@ -1,0 +1,60 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+#
+# Editor for Polish blog posts. The owner edits Polish only; the publisher routine
+# translates into the other 8 languages and publishes.
+# Log in with "Sign In with Token": a fine-grained GitHub token for the
+# your-github-user/your-repo repo with Contents: Read and write.
+
+backend:
+  name: github
+  repo: your-github-user/your-repo
+  branch: main
+  commit_messages:
+    create: 'cms: nowy wpis „{{slug}}”'
+    update: 'cms: edycja „{{slug}}”'
+    delete: 'cms: usunięcie „{{slug}}”'
+    uploadMedia: 'cms: plik „{{path}}”'
+    deleteMedia: 'cms: usunięcie pliku „{{path}}”'
+
+site_url: https://example.com
+display_url: https://example.com
+# Don't write empty optional fields (e.g. updatedDate: '') into frontmatter.
+output:
+  omit_empty_optional_fields: true
+media_folder: public/images/blog
+public_folder: /images/blog
+
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: '-'
+
+collections:
+  - name: blog
+    label: Blog (PL)
+    label_singular: Artykuł
+    description: 'Szkice od routine’y mają „Szkic” włączony. Gdy skończysz edycję, zaznacz „Gotowe — przetłumacz i opublikuj” i zapisz. W ciągu godziny artykuł zostanie przetłumaczony na 8 języków i opublikowany.'
+    folder: src/content/blog/pl
+    extension: md
+    format: frontmatter
+    create: true
+    slug: '{{slug}}'
+    summary: '{{title}} — {{pubDate}}{{draft | ternary(" · SZKIC", "")}}{{ready | ternary(" · gotowe", "")}}'
+    sortable_fields: [pubDate, title]
+    view_filters:
+      - { label: Szkice, field: draft, pattern: true }
+      - { label: Opublikowane, field: draft, pattern: false }
+      - { label: Gotowe do publikacji, field: ready, pattern: true }
+    preview_path: blog/{{slug}}
+    fields:
+      - { name: title, label: Tytuł, widget: string, hint: 'Maks. ~60 znaków, główne słowo kluczowe na początku.', pattern: ['^.{10,80}$', 'Od 10 do 80 znaków'] }
+      - { name: description, label: Opis (meta description), widget: text, hint: '120–160 znaków. To widać w Google pod tytułem.', pattern: ['^[\s\S]{50,170}$', 'Od 50 do 170 znaków'] }
+      - { name: pubDate, label: Data publikacji, widget: datetime, format: YYYY-MM-DD, time_format: false }
+      - { name: updatedDate, label: Data aktualizacji, widget: datetime, format: YYYY-MM-DD, time_format: false, required: false }
+      - { name: tags, label: Tagi, widget: list, default: [] }
+      - { name: keyword, label: Główne słowo kluczowe, widget: string, required: false, hint: 'Z seo/keywords.md, uzupełnia routine.' }
+      - { name: ready, label: 'Gotowe — przetłumacz i opublikuj', widget: boolean, default: false }
+      - { name: draft, label: 'Szkic (niewidoczny na stronie)', widget: boolean, default: true, hint: 'Zostaw włączone — routine wyłączy po przetłumaczeniu.' }
+      - { name: translationKey, label: Klucz tłumaczeń, widget: hidden, required: false }
+      - { name: draftedBy, label: Autor szkicu, widget: hidden, required: false }
+      - { name: body, label: Treść, widget: richtext }

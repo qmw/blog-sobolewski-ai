@@ -1,0 +1,33 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import PostRow from '@/components/PostRow.astro';
+import { type Lang, routeAlternates, rssUrl, t } from '@/i18n';
+import { profile } from '@/data/profile';
+import { getPosts } from '@/lib/blog';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const tr = t(lang);
+const posts = await getPosts(lang);
+const lead = tr('blog.lead');
+---
+
+<Base lang={lang} title={`${tr('blog.all')} — Blog`} description={lead} alternates={routeAlternates('blog')}>
+  <PageHeader eyebrow="Blog" title={tr('blog.all')} lead={lead}>
+    <p class="mt-6">
+      <a href={rssUrl(lang)} class="meta inline-flex items-center gap-1.5 hover:text-accent">
+        <svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"></path>
+          <circle cx="5" cy="19" r="1" fill="currentColor"></circle>
+        </svg>
+        {tr('blog.rss')}
+      </a>
+    </p>
+  </PageHeader>
+  <section class="container-page">
+    {posts.length ? posts.map((post) => <PostRow post={post} lang={lang} />) : <p class="border-t border-line pt-8 text-muted">{tr('blog.empty')}</p>}
+  </section>
+</Base>

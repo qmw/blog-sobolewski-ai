@@ -1,0 +1,40 @@
+---
+// One post in a feed: date column + title, description and tags.
+import { type Lang, formatDateShort, postUrl, t } from '@/i18n';
+import { parseId, readingMinutes, type Post } from '@/lib/blog';
+
+interface Props {
+  post: Post;
+  lang: Lang;
+  /** Heading level for the title (h2 in lists, h3 inside other sections). */
+  as?: 'h2' | 'h3';
+}
+const { post, lang, as: Heading = 'h2' } = Astro.props;
+const tr = t(lang);
+const { slug } = parseId(post.id);
+---
+
+<article class="group relative grid gap-2 border-t border-line py-7 sm:grid-cols-[8.5rem_1fr] sm:gap-8">
+  <p class="meta pt-1.5">
+    <time datetime={post.data.pubDate.toISOString()}>{formatDateShort(post.data.pubDate, lang)}</time>
+    <span class="sm:block">
+      {readingMinutes(post.body)} {tr('blog.minRead')}
+    </span>
+    {post.data.draft && <span class="ms-2 rounded bg-accent-soft px-1.5 text-accent">DRAFT</span>}
+  </p>
+  <div>
+    <Heading class="display text-2xl leading-[1.15] sm:text-[1.75rem] transition-colors group-hover:text-accent">
+      <a href={postUrl(lang, slug)} class="link-cover">{post.data.title}</a>
+    </Heading>
+    <p class="mt-2 max-w-2xl text-muted text-pretty">{post.data.description}</p>
+    {
+      post.data.tags.length > 0 && (
+        <ul class="mt-3 flex flex-wrap gap-2">
+          {post.data.tags.map((tag) => (
+            <li class="pill">{tag}</li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</article>
