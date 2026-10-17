@@ -33,7 +33,22 @@ agent ── list_reviews_to_learn → get_review_diff → add_style_rules ─�
 2. `cd mcp && npm install` (Node ≥ 22.18; runs the TypeScript directly).
 3. Register it with your agent:
 
-**Claude Code (this repo):** already configured in `.mcp.json`. Export the token in your shell profile:
+**Claude Code (this repo):** add a `.mcp.json` in the repo root (keep the token out of it; Claude Code expands `${VAR}` from your environment):
+```json
+{
+  "mcpServers": {
+    "blog": {
+      "command": "node",
+      "args": ["mcp/src/index.ts"],
+      "env": {
+        "GITHUB_TOKEN": "${BLOG_GITHUB_TOKEN}",
+        "GITHUB_REPO": "your-github-user/your-repo"
+      }
+    }
+  }
+}
+```
+Then export the token in your shell profile:
 ```bash
 export BLOG_GITHUB_TOKEN=github_pat_...
 ```
