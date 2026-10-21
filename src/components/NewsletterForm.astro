@@ -1,0 +1,25 @@
+---
+// Newsletter sign-up card at the end of a post (the header has the compact one).
+// A plain form (no JavaScript): /api/newsletter/subscribe answers with a page asking
+// the visitor to confirm by email (double opt-in).
+import { type Lang, route, t } from '@/i18n';
+import Fields from '@/components/NewsletterFields.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const tr = t(lang);
+const id = 'newsletter-card';
+---
+
+<section class="card" aria-labelledby={`${id}-title`}>
+  <p id={`${id}-title`} class="display text-2xl">{tr('newsletter.title')}</p>
+  <p class="mt-2 max-w-prose text-sm text-muted text-pretty">{tr('newsletter.lead')}</p>
+  <div class="mt-4">
+    <Fields lang={lang} id={id} />
+  </div>
+  <p class="mt-3 text-xs text-muted">
+    {tr('newsletter.note')} <a href={route('privacy', lang)} class="underline decoration-line underline-offset-4 hover:text-accent">{tr('nav.privacy')}</a>
+  </p>
+</section>

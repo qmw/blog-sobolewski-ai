@@ -2,6 +2,7 @@
 import { render } from 'astro:content';
 import Base from '@/layouts/Base.astro';
 import PostRow from '@/components/PostRow.astro';
+import NewsletterForm from '@/components/NewsletterForm.astro';
 import { type Lang, route, postUrl, t, pick, formatDate, languages } from '@/i18n';
 import { profile } from '@/data/profile';
 import { adjacentPosts, parseId, postAlternates, readingMinutes, relatedPosts, type Post } from '@/lib/blog';
@@ -136,6 +137,9 @@ const navLink = (p: Post) => postUrl(lang, parseId(p.id).slug);
           </div>
           <a href={route('about', lang)} class="btn btn-ghost shrink-0">{tr('post.authorMore')} →</a>
         </aside>
+        <div class="mt-6">
+          <NewsletterForm lang={lang} />
+        </div>
       </footer>
     </div>
   </article>

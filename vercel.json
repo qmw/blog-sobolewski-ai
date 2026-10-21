@@ -35,6 +35,17 @@
   ],
   "redirects": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.example.com"
+        }
+      ],
+      "destination": "https://example.com/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {

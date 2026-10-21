@@ -64,6 +64,40 @@ const year = new Date().getFullYear();
       © {year} {profile.name}. {tr('footer.rights')} ·
       <a href={profile.openSource} rel="noopener" target="_blank" class="hover:text-accent">{tr('footer.oss')} ↗</a>
     </p>
-    <p>{tr('footer.ai')} · {tr('footer.made')}</p>
+    <p class="flex items-center gap-3">
+      <span><a href={route('privacy', lang)} class="hover:text-accent">{tr('nav.privacy')}</a> · {tr('footer.ai')} · {tr('footer.made')}</span>
+      <button
+        id="theme-toggle"
+        type="button"
+        class="rounded-full border border-line p-1.5 text-muted hover:border-accent hover:text-accent"
+        aria-label={tr('theme.toggle')}
+      >
+        <svg class="hidden size-3.5 dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+        </svg>
+        <svg class="size-3.5 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+        </svg>
+      </button>
+    </p>
   </div>
 </footer>
+
+<script>
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    const dark = !document.documentElement.classList.contains('dark');
+    document.documentElement.classList.toggle('dark', dark);
+    document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+    try {
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+    } catch {}
+  });
+  // Remember an explicit language choice (any link with hreflang), so the
+  // Accept-Language redirect in vercel.json stops overriding it.
+  document.addEventListener('click', (e) => {
+    const a = (e.target as Element).closest('a[hreflang]');
+    const code = a?.getAttribute('hreflang')?.split('-')[0];
+    if (code) document.cookie = `lang=${code}; path=/; max-age=31536000; samesite=lax`;
+  });
+</script>

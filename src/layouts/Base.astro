@@ -33,12 +33,15 @@ const tr = t(props.lang);
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="generator" content={Astro.generator} />
     <Seo {...props} />
+    <!-- Vercel Web Analytics: cookieless page views, served first-party by Vercel. -->
+    <script is:inline>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+    <script is:inline defer src="/_vercel/insights/script.js"></script>
   </head>
   <body class="flex min-h-dvh flex-col">
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 btn btn-primary">
       {tr('nav.skip')}
     </a>
-    <Header lang={props.lang} alternates={props.alternates} />
+    <Header lang={props.lang} />
     <main id="main" class="flex-1">
       <slot />
     </main>

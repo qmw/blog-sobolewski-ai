@@ -1,0 +1,151 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { type Lang, routeAlternates, t } from '@/i18n';
+import { profile } from '@/data/profile';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const tr = t(lang);
+
+// Keep every language saying the same thing. Update `updated` when the content changes.
+const updated = '2026-10-20';
+const email = profile.email;
+const resendPolicy = 'https://resend.com/legal/privacy-policy';
+const vercelPolicy = 'https://vercel.com/legal/privacy-policy';
+
+type Section = { h: string; p: string };
+const content: Record<Lang, { lead: string; updated: string; sections: Section[] }> = {
+  pl: {
+    lead: 'Jakie dane zbiera ta strona, po co i jak możesz nimi zarządzać.',
+    updated: 'Ostatnia aktualizacja',
+    sections: [
+      { h: 'Administrator', p: `Administratorem danych jest ${profile.name}. Kontakt: ${email}.` },
+      { h: 'Newsletter', p: 'Jeśli zapiszesz się na newsletter, przechowujemy Twój adres e-mail i wybrany język. Zapis staje się aktywny dopiero po kliknięciu linku w mailu potwierdzającym. Podstawą jest Twoja zgoda (art. 6 ust. 1 lit. a RODO), którą możesz wycofać w każdej chwili linkiem „wypisz się” w każdym mailu. Dane trzymamy do czasu wypisania się. Nie śledzimy otwarć maili ani kliknięć.' },
+      { h: 'Kto wysyła maile', p: `Maile wysyła w naszym imieniu Resend (Plus Five Five, Inc., USA), z serwerów w regionie UE. Resend przetwarza dane jako podmiot przetwarzający, zgodnie ze swoją polityką prywatności: ${resendPolicy}.` },
+      { h: 'Statystyki i hosting', p: `Stronę hostuje Vercel Inc. (USA), który przetwarza techniczne dane żądań (np. adres IP) potrzebne do jej dostarczenia i ochrony. Odwiedziny liczymy za pomocą Vercel Web Analytics, które działa bez plików cookie i nie identyfikuje Cię. Polityka Vercel: ${vercelPolicy}.` },
+      { h: 'Pliki cookie', p: 'Strona nie używa plików cookie. Wybrany motyw (jasny lub ciemny) zapisuje się tylko w Twojej przeglądarce.' },
+      { h: 'Twoje prawa', p: `Masz prawo dostępu do swoich danych, ich sprostowania, usunięcia, ograniczenia przetwarzania i przeniesienia, a także prawo wycofania zgody. Napisz na ${email}. Możesz też złożyć skargę do Prezesa Urzędu Ochrony Danych Osobowych.` },
+    ],
+  },
+  en: {
+    lead: 'What data this site collects, why, and how you can control it.',
+    updated: 'Last updated',
+    sections: [
+      { h: 'Controller', p: `The data controller is ${profile.name}. Contact: ${email}.` },
+      { h: 'Newsletter', p: 'If you subscribe to the newsletter, we store your email address and chosen language. Your subscription becomes active only after you click the link in the confirmation email. The legal basis is your consent (Art. 6(1)(a) GDPR), which you can withdraw at any time with the unsubscribe link in every email. We keep the data until you unsubscribe. We do not track email opens or clicks.' },
+      { h: 'Who sends the emails', p: `Emails are sent on our behalf by Resend (Plus Five Five, Inc., USA) from servers in the EU region. Resend processes the data as a processor, under its privacy policy: ${resendPolicy}.` },
+      { h: 'Analytics and hosting', p: `The site is hosted by Vercel Inc. (USA), which processes technical request data (such as IP addresses) needed to deliver and protect it. We count visits with Vercel Web Analytics, which uses no cookies and does not identify you. Vercel's policy: ${vercelPolicy}.` },
+      { h: 'Cookies', p: 'This site uses no cookies. Your theme choice (light or dark) is stored only in your browser.' },
+      { h: 'Your rights', p: `You have the right to access, correct, delete, restrict and port your data, and to withdraw your consent. Write to ${email}. You can also lodge a complaint with a data protection authority; in Poland, the President of the Personal Data Protection Office (UODO).` },
+    ],
+  },
+  de: {
+    lead: 'Welche Daten diese Website erhebt, wozu und wie du sie verwalten kannst.',
+    updated: 'Zuletzt aktualisiert',
+    sections: [
+      { h: 'Verantwortlicher', p: `Verantwortlicher ist ${profile.name}. Kontakt: ${email}.` },
+      { h: 'Newsletter', p: 'Wenn du den Newsletter abonnierst, speichern wir deine E-Mail-Adresse und die gewählte Sprache. Das Abo wird erst aktiv, wenn du auf den Link in der Bestätigungs-E-Mail klickst. Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die du jederzeit über den Abmeldelink in jeder E-Mail widerrufen kannst. Wir speichern die Daten bis zur Abmeldung. Öffnungen und Klicks werden nicht erfasst.' },
+      { h: 'Wer die E-Mails versendet', p: `Die E-Mails versendet in unserem Auftrag Resend (Plus Five Five, Inc., USA) von Servern in der EU-Region. Resend verarbeitet die Daten als Auftragsverarbeiter gemäß seiner Datenschutzerklärung: ${resendPolicy}.` },
+      { h: 'Statistik und Hosting', p: `Gehostet wird die Website von Vercel Inc. (USA), das technische Anfragedaten (z. B. IP-Adressen) verarbeitet, um sie auszuliefern und zu schützen. Besuche zählen wir mit Vercel Web Analytics, ohne Cookies und ohne dich zu identifizieren. Datenschutz bei Vercel: ${vercelPolicy}.` },
+      { h: 'Cookies', p: 'Diese Website verwendet keine Cookies. Das gewählte Design (hell oder dunkel) wird nur in deinem Browser gespeichert.' },
+      { h: 'Deine Rechte', p: `Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung und Datenübertragbarkeit sowie auf Widerruf deiner Einwilligung. Schreib an ${email}. Du kannst dich außerdem bei einer Datenschutzaufsichtsbehörde beschweren.` },
+    ],
+  },
+  es: {
+    lead: 'Qué datos recoge este sitio, para qué y cómo puedes gestionarlos.',
+    updated: 'Última actualización',
+    sections: [
+      { h: 'Responsable', p: `El responsable del tratamiento es ${profile.name}. Contacto: ${email}.` },
+      { h: 'Boletín', p: 'Si te suscribes al boletín, guardamos tu dirección de correo y el idioma elegido. La suscripción solo se activa cuando haces clic en el enlace del correo de confirmación. La base jurídica es tu consentimiento (art. 6.1.a del RGPD), que puedes retirar en cualquier momento con el enlace de baja de cada correo. Conservamos los datos hasta que te des de baja. No rastreamos aperturas ni clics.' },
+      { h: 'Quién envía los correos', p: `Los correos los envía en nuestro nombre Resend (Plus Five Five, Inc., EE. UU.) desde servidores en la región de la UE. Resend trata los datos como encargado del tratamiento, según su política de privacidad: ${resendPolicy}.` },
+      { h: 'Estadísticas y alojamiento', p: `El sitio está alojado en Vercel Inc. (EE. UU.), que trata datos técnicos de las solicitudes (como direcciones IP) necesarios para servirlo y protegerlo. Contamos las visitas con Vercel Web Analytics, que no usa cookies ni te identifica. Política de Vercel: ${vercelPolicy}.` },
+      { h: 'Cookies', p: 'Este sitio no usa cookies. El tema elegido (claro u oscuro) se guarda solo en tu navegador.' },
+      { h: 'Tus derechos', p: `Tienes derecho a acceder a tus datos, rectificarlos, suprimirlos, limitar su tratamiento y portarlos, así como a retirar tu consentimiento. Escribe a ${email}. También puedes presentar una reclamación ante una autoridad de protección de datos.` },
+    ],
+  },
+  fr: {
+    lead: 'Les données que ce site collecte, pourquoi, et comment vous pouvez les gérer.',
+    updated: 'Dernière mise à jour',
+    sections: [
+      { h: 'Responsable du traitement', p: `Le responsable du traitement est ${profile.name}. Contact : ${email}.` },
+      { h: 'Newsletter', p: "Si vous vous inscrivez à la newsletter, nous conservons votre adresse e-mail et la langue choisie. L'inscription ne devient active qu'après un clic sur le lien de l'e-mail de confirmation. La base légale est votre consentement (art. 6, par. 1, a) du RGPD), que vous pouvez retirer à tout moment grâce au lien de désinscription présent dans chaque e-mail. Nous conservons les données jusqu'à votre désinscription. Nous ne suivons ni les ouvertures ni les clics." },
+      { h: 'Qui envoie les e-mails', p: `Les e-mails sont envoyés pour notre compte par Resend (Plus Five Five, Inc., États-Unis) depuis des serveurs situés dans la région UE. Resend traite les données en tant que sous-traitant, selon sa politique de confidentialité : ${resendPolicy}.` },
+      { h: 'Statistiques et hébergement', p: `Le site est hébergé par Vercel Inc. (États-Unis), qui traite les données techniques des requêtes (comme les adresses IP) nécessaires pour le servir et le protéger. Nous mesurons les visites avec Vercel Web Analytics, sans cookies et sans vous identifier. Politique de Vercel : ${vercelPolicy}.` },
+      { h: 'Cookies', p: "Ce site n'utilise pas de cookies. Le thème choisi (clair ou sombre) est enregistré uniquement dans votre navigateur." },
+      { h: 'Vos droits', p: `Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation et de portabilité de vos données, ainsi que du droit de retirer votre consentement. Écrivez à ${email}. Vous pouvez aussi introduire une réclamation auprès d'une autorité de protection des données.` },
+    ],
+  },
+  it: {
+    lead: 'Quali dati raccoglie questo sito, perché e come puoi gestirli.',
+    updated: 'Ultimo aggiornamento',
+    sections: [
+      { h: 'Titolare del trattamento', p: `Il titolare del trattamento è ${profile.name}. Contatto: ${email}.` },
+      { h: 'Newsletter', p: "Se ti iscrivi alla newsletter, conserviamo il tuo indirizzo email e la lingua scelta. L'iscrizione diventa attiva solo dopo che clicchi il link nell'email di conferma. La base giuridica è il tuo consenso (art. 6, par. 1, lett. a GDPR), che puoi revocare in qualsiasi momento con il link di disiscrizione presente in ogni email. Conserviamo i dati fino alla disiscrizione. Non tracciamo aperture né clic." },
+      { h: 'Chi invia le email', p: `Le email sono inviate per nostro conto da Resend (Plus Five Five, Inc., USA) da server nella regione UE. Resend tratta i dati come responsabile del trattamento, secondo la sua informativa: ${resendPolicy}.` },
+      { h: 'Statistiche e hosting', p: `Il sito è ospitato da Vercel Inc. (USA), che tratta i dati tecnici delle richieste (come gli indirizzi IP) necessari per erogarlo e proteggerlo. Contiamo le visite con Vercel Web Analytics, senza cookie e senza identificarti. Informativa di Vercel: ${vercelPolicy}.` },
+      { h: 'Cookie', p: 'Questo sito non usa cookie. Il tema scelto (chiaro o scuro) viene salvato solo nel tuo browser.' },
+      { h: 'I tuoi diritti', p: `Hai diritto di accedere ai tuoi dati, rettificarli, cancellarli, limitarne il trattamento e alla portabilità, oltre a revocare il consenso. Scrivi a ${email}. Puoi anche proporre reclamo a un'autorità per la protezione dei dati.` },
+    ],
+  },
+  ar: {
+    lead: 'ما البيانات التي يجمعها هذا الموقع، ولماذا، وكيف يمكنك التحكم بها.',
+    updated: 'آخر تحديث',
+    sections: [
+      { h: 'المسؤول عن البيانات', p: `المسؤول عن معالجة البيانات هو ${profile.name}. للتواصل: ${email}.` },
+      { h: 'النشرة البريدية', p: 'إذا اشتركت في النشرة البريدية، نحتفظ بعنوان بريدك الإلكتروني واللغة التي اخترتها. لا يصبح الاشتراك فعّالًا إلا بعد النقر على الرابط في رسالة التأكيد. الأساس القانوني هو موافقتك (المادة 6(1)(أ) من اللائحة العامة لحماية البيانات)، ويمكنك سحبها في أي وقت عبر رابط إلغاء الاشتراك الموجود في كل رسالة. نحتفظ بالبيانات حتى تلغي اشتراكك. لا نتتبع فتح الرسائل ولا النقرات.' },
+      { h: 'من يرسل الرسائل', p: `ترسل الرسائل نيابةً عنا شركة Resend (Plus Five Five, Inc.، الولايات المتحدة) من خوادم في منطقة الاتحاد الأوروبي. تعالج Resend البيانات بصفتها جهة معالجة وفق سياسة الخصوصية الخاصة بها: ${resendPolicy}.` },
+      { h: 'الإحصاءات والاستضافة', p: `يستضيف الموقع Vercel Inc. (الولايات المتحدة)، وتعالج بيانات الطلبات التقنية (مثل عناوين IP) اللازمة لتقديمه وحمايته. نحسب الزيارات باستخدام Vercel Web Analytics دون ملفات تعريف الارتباط ودون التعرّف عليك. سياسة Vercel: ${vercelPolicy}.` },
+      { h: 'ملفات تعريف الارتباط', p: 'لا يستخدم هذا الموقع ملفات تعريف الارتباط. يُحفظ اختيارك للمظهر (فاتح أو داكن) في متصفحك فقط.' },
+      { h: 'حقوقك', p: `يحق لك الوصول إلى بياناتك وتصحيحها وحذفها وتقييد معالجتها ونقلها، وكذلك سحب موافقتك. راسلنا على ${email}. ويمكنك أيضًا تقديم شكوى إلى سلطة حماية البيانات.` },
+    ],
+  },
+  ja: {
+    lead: 'このサイトが収集するデータ、その目的、管理方法について。',
+    updated: '最終更新日',
+    sections: [
+      { h: '管理者', p: `データの管理者は ${profile.name} です。連絡先：${email}` },
+      { h: 'ニュースレター', p: 'ニュースレターに登録すると、メールアドレスと選択した言語を保存します。登録は確認メールのリンクをクリックした後に有効になります。法的根拠はお客様の同意（GDPR 第6条第1項(a)）で、各メールの配信停止リンクからいつでも撤回できます。データは配信停止まで保持します。メールの開封やクリックは追跡しません。' },
+      { h: 'メールの送信者', p: `メールは当方に代わって Resend（Plus Five Five, Inc.、米国）が EU リージョンのサーバーから送信します。Resend は処理者として、同社のプライバシーポリシーに従ってデータを処理します：${resendPolicy}` },
+      { h: 'アクセス解析とホスティング', p: `本サイトは Vercel Inc.（米国）がホスティングしており、配信と保護に必要なリクエストの技術データ（IP アドレスなど）を処理します。訪問数は Cookie を使わず、個人を特定しない Vercel Web Analytics で計測しています。Vercel のポリシー：${vercelPolicy}` },
+      { h: 'Cookie', p: '本サイトは Cookie を使用しません。選択したテーマ（ライトまたはダーク）はお使いのブラウザにのみ保存されます。' },
+      { h: 'お客様の権利', p: `お客様には、データへのアクセス、訂正、削除、処理の制限、データポータビリティの権利、および同意を撤回する権利があります。${email} までご連絡ください。データ保護当局に苦情を申し立てることもできます。` },
+    ],
+  },
+  zh: {
+    lead: '本网站收集哪些数据、用途是什么，以及你如何管理这些数据。',
+    updated: '最后更新',
+    sections: [
+      { h: '数据控制者', p: `数据控制者为 ${profile.name}。联系方式：${email}。` },
+      { h: '新闻简报', p: '如果你订阅新闻简报，我们会保存你的邮箱地址和所选语言。只有在你点击确认邮件中的链接后，订阅才会生效。法律依据是你的同意（GDPR 第 6 条第 1 款 (a) 项），你可以随时通过每封邮件中的退订链接撤回同意。我们会保存数据直到你退订。我们不追踪邮件的打开或点击。' },
+      { h: '谁发送邮件', p: `邮件由 Resend（Plus Five Five, Inc.，美国）代表我们从欧盟区域的服务器发送。Resend 作为数据处理者，按照其隐私政策处理数据：${resendPolicy}。` },
+      { h: '统计与托管', p: `本网站由 Vercel Inc.（美国）托管，Vercel 会处理提供和保护网站所需的请求技术数据（如 IP 地址）。我们使用 Vercel Web Analytics 统计访问量，不使用 Cookie，也不会识别你的身份。Vercel 的政策：${vercelPolicy}。` },
+      { h: 'Cookie', p: '本网站不使用 Cookie。你选择的主题（浅色或深色）只保存在你的浏览器中。' },
+      { h: '你的权利', p: `你有权访问、更正、删除你的数据，限制其处理，要求数据可携带，并有权撤回同意。请写信至 ${email}。你也可以向数据保护机构投诉。` },
+    ],
+  },
+};
+const c = content[lang];
+const title = tr('nav.privacy');
+---
+
+<Base lang={lang} title={`${title} — ${profile.name}`} description={c.lead} alternates={routeAlternates('privacy')}>
+  <PageHeader eyebrow={title} title={title} lead={c.lead} />
+  <section class="container-read">
+    <div class="prose-site">
+      {
+        c.sections.map((s) => (
+          <>
+            <h2>{s.h}</h2>
+            <p>{s.p}</p>
+          </>
+        ))
+      }
+      <p class="meta">
+        {c.updated}: <time datetime={updated}>{updated}</time>
+      </p>
+    </div>
+  </section>
+</Base>

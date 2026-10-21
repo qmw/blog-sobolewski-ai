@@ -1,0 +1,32 @@
+---
+// The sign-up form itself: email field and button. Used by NewsletterForm.
+import { type Lang, t } from '@/i18n';
+
+interface Props {
+  lang: Lang;
+  id: string;
+}
+const { lang, id } = Astro.props;
+const tr = t(lang);
+---
+
+<form method="post" action="/api/newsletter/subscribe" class="flex gap-2">
+  <input type="hidden" name="lang" value={lang} />
+  {/* Honeypot: hidden from people, bots fill it in. */}
+  <div class="hidden" aria-hidden="true">
+    <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+  </div>
+  <label for={`${id}-email`} class="sr-only">{tr('newsletter.email')}</label>
+  <input
+    id={`${id}-email`}
+    type="email"
+    name="email"
+    required
+    maxlength="254"
+    autocomplete="email"
+    placeholder={tr('newsletter.email')}
+    dir="ltr"
+    class="min-w-0 flex-1 rounded-full border border-line bg-bg px-4 py-2 text-sm text-fg placeholder:text-muted focus:border-accent"
+  />
+  <button type="submit" class="btn btn-primary shrink-0 px-4 py-2">{tr('newsletter.submit')}</button>
+</form>

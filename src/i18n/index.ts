@@ -22,6 +22,7 @@ const pages = {
   about: { pl: '/o-mnie', other: '/about' },
   blog: { pl: '/blog', other: '/blog' },
   contact: { pl: '/kontakt', other: '/contact' },
+  privacy: { pl: '/polityka-prywatnosci', other: '/privacy' },
 } as const;
 export type RouteKey = keyof typeof pages;
 
@@ -34,6 +35,7 @@ export function routeAlternates(key: RouteKey): Record<Lang, string> {
   return Object.fromEntries(langs.map((l) => [l, route(key, l)])) as Record<Lang, string>;
 }
 
+/** Footer menu (the header is the newsletter sign-up). */
 export const navOrder: RouteKey[] = ['blog', 'about', 'contact'];
 
 export function postUrl(lang: Lang, slug: string) {
@@ -76,7 +78,7 @@ const pl = {
   'blog.empty': 'Pierwsze artykuły już wkrótce.',
   'blog.translations': 'Ten artykuł w innych językach:',
   'blog.back': '← Wszystkie artykuły',
-  'contact.lead': 'Najszybciej złapiesz mnie mailem. Napisz, nad czym pracujesz i w czym mogę pomóc.',
+  'contact.lead': 'Najszybciej złapiesz mnie na WhatsAppie. Napisz, nad czym pracujesz i w czym mogę pomóc.',
   'footer.rights': 'Wszelkie prawa zastrzeżone.',
   'footer.ai': 'Treści współtworzone z AI.',
   'footer.made': 'Zrobione w Polsce',
@@ -92,14 +94,16 @@ const pl = {
   'post.older': 'Starszy wpis',
   'post.related': 'Czytaj dalej',
   'post.authorMore': 'Więcej o mnie',
-  'about.facts': 'W skrócie',
-  'about.location': 'Lokalizacja',
-  'about.languages': 'Języki strony',
-  'about.elsewhere': 'Gdzie mnie znaleźć',
   'home.heading': 'Na bieżąco z AI',
   'home.title': 'Nowości AI: modele, agenci i narzędzia',
   'home.lead': 'Aktualne wiadomości, narzędzia, wydarzenia. Bądź na bieżąco ze wszystkim, co warto dziś wiedzieć w świecie AI.',
   'home.by': 'Pisze',
+  'newsletter.title': 'AI dziś, o 20:00',
+  'newsletter.lead': 'Codziennie wieczorem najważniejsze wiadomości ze świata AI i nowe wpisy z bloga. Krótko, ze źródłami.',
+  'newsletter.email': 'Twój adres e-mail',
+  'newsletter.submit': 'Zapisz się',
+  'newsletter.note': 'Raz dziennie, wypiszesz się jednym kliknięciem.',
+  'nav.privacy': 'Polityka prywatności',
 };
 type Dict = Record<keyof typeof pl, string>;
 
@@ -121,7 +125,7 @@ const en: Dict = {
   'blog.empty': 'First articles coming soon.',
   'blog.translations': 'This article in other languages:',
   'blog.back': '← All articles',
-  'contact.lead': 'Email is the fastest way to reach me. Tell me what you are working on and how I can help.',
+  'contact.lead': 'WhatsApp is the fastest way to reach me. Tell me what you are working on and how I can help.',
   'footer.rights': 'All rights reserved.',
   'footer.ai': 'Content co-created with AI.',
   'footer.made': 'Made in Poland',
@@ -137,14 +141,16 @@ const en: Dict = {
   'post.older': 'Older post',
   'post.related': 'Keep reading',
   'post.authorMore': 'More about me',
-  'about.facts': 'At a glance',
-  'about.location': 'Location',
-  'about.languages': 'Site languages',
-  'about.elsewhere': 'Elsewhere',
   'home.heading': 'Stay current with AI',
   'home.title': 'AI news: models, agents and tools',
   'home.lead': 'The latest news, tools and events. Keep up with everything worth knowing in AI today.',
   'home.by': 'Written by',
+  'newsletter.title': 'AI today, every evening',
+  'newsletter.lead': "The day's biggest AI news and new posts from the blog, every evening. Short, with sources.",
+  'newsletter.email': 'Your email address',
+  'newsletter.submit': 'Subscribe',
+  'newsletter.note': 'Once a day. Unsubscribe with one click.',
+  'nav.privacy': 'Privacy policy',
 };
 
 const de: Dict = {
@@ -165,7 +171,7 @@ const de: Dict = {
   'blog.empty': 'Die ersten Artikel erscheinen bald.',
   'blog.translations': 'Dieser Artikel in anderen Sprachen:',
   'blog.back': '← Alle Artikel',
-  'contact.lead': 'Am schnellsten erreichen Sie mich per E-Mail. Erzählen Sie mir, woran Sie arbeiten und wobei ich helfen kann.',
+  'contact.lead': 'Am schnellsten erreichen Sie mich über WhatsApp. Erzählen Sie mir, woran Sie arbeiten und wobei ich helfen kann.',
   'footer.rights': 'Alle Rechte vorbehalten.',
   'footer.ai': 'Inhalte mit KI erstellt.',
   'footer.made': 'Made in Poland',
@@ -181,14 +187,16 @@ const de: Dict = {
   'post.older': 'Älterer Beitrag',
   'post.related': 'Weiterlesen',
   'post.authorMore': 'Mehr über mich',
-  'about.facts': 'Auf einen Blick',
-  'about.location': 'Standort',
-  'about.languages': 'Sprachen der Website',
-  'about.elsewhere': 'Anderswo',
   'home.heading': 'Mit KI auf dem Laufenden',
   'home.title': 'KI-News: Modelle, Agenten und Tools',
   'home.lead': 'Aktuelle Nachrichten, Tools und Ereignisse. Bleib auf dem Laufenden mit allem, was heute in der KI-Welt wichtig ist.',
   'home.by': 'Geschrieben von',
+  'newsletter.title': 'KI heute, jeden Abend',
+  'newsletter.lead': 'Jeden Abend die wichtigsten KI-News des Tages und neue Blogbeiträge. Kurz und mit Quellen.',
+  'newsletter.email': 'Deine E-Mail-Adresse',
+  'newsletter.submit': 'Abonnieren',
+  'newsletter.note': 'Einmal täglich. Abmelden mit einem Klick.',
+  'nav.privacy': 'Datenschutz',
 };
 
 const es: Dict = {
@@ -209,7 +217,7 @@ const es: Dict = {
   'blog.empty': 'Los primeros artículos llegarán pronto.',
   'blog.translations': 'Este artículo en otros idiomas:',
   'blog.back': '← Todos los artículos',
-  'contact.lead': 'El correo es la forma más rápida de contactarme. Cuéntame en qué trabajas y cómo puedo ayudarte.',
+  'contact.lead': 'WhatsApp es la forma más rápida de contactarme. Cuéntame en qué trabajas y cómo puedo ayudarte.',
   'footer.rights': 'Todos los derechos reservados.',
   'footer.ai': 'Contenido creado con IA.',
   'footer.made': 'Hecho en Polonia',
@@ -225,14 +233,16 @@ const es: Dict = {
   'post.older': 'Artículo anterior',
   'post.related': 'Sigue leyendo',
   'post.authorMore': 'Más sobre mí',
-  'about.facts': 'En resumen',
-  'about.location': 'Ubicación',
-  'about.languages': 'Idiomas del sitio',
-  'about.elsewhere': 'En otros sitios',
   'home.heading': 'Al día con la IA',
   'home.title': 'Noticias de IA: modelos, agentes y herramientas',
   'home.lead': 'Noticias, herramientas y eventos actuales. Mantente al día con todo lo que vale la pena saber hoy sobre IA.',
   'home.by': 'Escrito por',
+  'newsletter.title': 'La IA de hoy, cada tarde',
+  'newsletter.lead': 'Cada tarde, las noticias de IA más importantes del día y los nuevos artículos del blog. Breve y con fuentes.',
+  'newsletter.email': 'Tu correo electrónico',
+  'newsletter.submit': 'Suscribirme',
+  'newsletter.note': 'Una vez al día. Date de baja con un clic.',
+  'nav.privacy': 'Política de privacidad',
 };
 
 const fr: Dict = {
@@ -253,7 +263,7 @@ const fr: Dict = {
   'blog.empty': 'Les premiers articles arrivent bientôt.',
   'blog.translations': 'Cet article dans d’autres langues :',
   'blog.back': '← Tous les articles',
-  'contact.lead': "L'e-mail est le moyen le plus rapide de me joindre. Dites-moi sur quoi vous travaillez et comment je peux aider.",
+  'contact.lead': 'WhatsApp est le moyen le plus rapide de me joindre. Dites-moi sur quoi vous travaillez et comment je peux aider.',
   'footer.rights': 'Tous droits réservés.',
   'footer.ai': "Contenu co-créé avec l'IA.",
   'footer.made': 'Fait en Pologne',
@@ -269,14 +279,16 @@ const fr: Dict = {
   'post.older': 'Article plus ancien',
   'post.related': 'À lire ensuite',
   'post.authorMore': 'En savoir plus sur moi',
-  'about.facts': 'En bref',
-  'about.location': 'Localisation',
-  'about.languages': 'Langues du site',
-  'about.elsewhere': 'Ailleurs',
   'home.heading': 'À jour sur l\'IA',
   'home.title': 'Actualités IA : modèles, agents et outils',
   'home.lead': 'Actualités, outils et événements. Restez à jour sur tout ce qu\'il faut savoir aujourd\'hui dans le monde de l\'IA.',
   'home.by': 'Écrit par',
+  'newsletter.title': "L'IA du jour, chaque soir",
+  'newsletter.lead': "Chaque soir, l'essentiel de l'actualité de l'IA et les nouveaux articles du blog. Court, avec les sources.",
+  'newsletter.email': 'Votre adresse e-mail',
+  'newsletter.submit': "S'inscrire",
+  'newsletter.note': 'Une fois par jour. Désinscription en un clic.',
+  'nav.privacy': 'Politique de confidentialité',
 };
 
 const it: Dict = {
@@ -297,7 +309,7 @@ const it: Dict = {
   'blog.empty': 'I primi articoli arriveranno presto.',
   'blog.translations': 'Questo articolo in altre lingue:',
   'blog.back': '← Tutti gli articoli',
-  'contact.lead': "L'e-mail è il modo più rapido per contattarmi. Raccontami a cosa lavori e come posso aiutarti.",
+  'contact.lead': 'WhatsApp è il modo più rapido per contattarmi. Raccontami a cosa lavori e come posso aiutarti.',
   'footer.rights': 'Tutti i diritti riservati.',
   'footer.ai': "Contenuti creati con l'IA.",
   'footer.made': 'Fatto in Polonia',
@@ -313,14 +325,16 @@ const it: Dict = {
   'post.older': 'Articolo precedente',
   'post.related': 'Continua a leggere',
   'post.authorMore': 'Più su di me',
-  'about.facts': 'In breve',
-  'about.location': 'Posizione',
-  'about.languages': 'Lingue del sito',
-  'about.elsewhere': 'Altrove',
   'home.heading': 'Aggiornato sull\'IA',
   'home.title': 'Notizie IA: modelli, agenti e strumenti',
   'home.lead': 'Notizie, strumenti ed eventi. Resta aggiornato su tutto ciò che vale la pena sapere oggi nel mondo dell\'IA.',
   'home.by': 'Scritto da',
+  'newsletter.title': "L'IA di oggi, ogni sera",
+  'newsletter.lead': "Ogni sera le notizie più importanti sull'IA e i nuovi articoli del blog. In breve, con le fonti.",
+  'newsletter.email': 'Il tuo indirizzo email',
+  'newsletter.submit': 'Iscriviti',
+  'newsletter.note': 'Una volta al giorno. Disiscriviti con un clic.',
+  'nav.privacy': 'Informativa sulla privacy',
 };
 
 const ar: Dict = {
@@ -341,7 +355,7 @@ const ar: Dict = {
   'blog.empty': 'المقالات الأولى قريبًا.',
   'blog.translations': 'هذا المقال بلغات أخرى:',
   'blog.back': '→ كل المقالات',
-  'contact.lead': 'البريد الإلكتروني هو أسرع طريقة للتواصل معي. أخبرني بما تعمل عليه وكيف يمكنني المساعدة.',
+  'contact.lead': 'واتساب هو أسرع طريقة للتواصل معي. أخبرني بما تعمل عليه وكيف يمكنني المساعدة.',
   'footer.rights': 'جميع الحقوق محفوظة.',
   'footer.ai': 'محتوى أُنشئ بمساعدة الذكاء الاصطناعي.',
   'footer.made': 'صُنع في بولندا',
@@ -357,14 +371,16 @@ const ar: Dict = {
   'post.older': 'مقال أقدم',
   'post.related': 'تابع القراءة',
   'post.authorMore': 'المزيد عني',
-  'about.facts': 'باختصار',
-  'about.location': 'الموقع',
-  'about.languages': 'لغات الموقع',
-  'about.elsewhere': 'في أماكن أخرى',
   'home.heading': 'على اطّلاع بالذكاء الاصطناعي',
   'home.title': 'أخبار الذكاء الاصطناعي: نماذج ووكلاء وأدوات',
   'home.lead': 'أحدث الأخبار والأدوات والأحداث. ابقَ على اطّلاع بكل ما يستحق المعرفة اليوم في عالم الذكاء الاصطناعي.',
   'home.by': 'بقلم',
+  'newsletter.title': 'الذكاء الاصطناعي اليوم، كل مساء',
+  'newsletter.lead': 'كل مساء، أهم أخبار الذكاء الاصطناعي في اليوم والمقالات الجديدة في المدونة. باختصار ومع المصادر.',
+  'newsletter.email': 'بريدك الإلكتروني',
+  'newsletter.submit': 'اشترك',
+  'newsletter.note': 'مرة واحدة يوميًا. ألغِ الاشتراك بنقرة واحدة.',
+  'nav.privacy': 'سياسة الخصوصية',
 };
 
 const ja: Dict = {
@@ -385,7 +401,7 @@ const ja: Dict = {
   'blog.empty': '最初の記事はまもなく公開します。',
   'blog.translations': 'この記事の他の言語版:',
   'blog.back': '← すべての記事',
-  'contact.lead': 'メールが最も早い連絡方法です。取り組んでいることと、私にできることを教えてください。',
+  'contact.lead': 'WhatsApp が最も早い連絡方法です。取り組んでいることと、私にできることを教えてください。',
   'footer.rights': 'All rights reserved.',
   'footer.ai': 'AIと共同で作成しています。',
   'footer.made': 'ポーランド製',
@@ -401,14 +417,16 @@ const ja: Dict = {
   'post.older': '古い記事',
   'post.related': '続けて読む',
   'post.authorMore': 'プロフィールを見る',
-  'about.facts': '概要',
-  'about.location': '所在地',
-  'about.languages': 'サイトの言語',
-  'about.elsewhere': 'その他のリンク',
   'home.heading': 'AIの最新情報をキャッチ',
   'home.title': 'AIニュース：モデル、エージェント、ツール',
   'home.lead': '最新のニュース、ツール、出来事。今日知っておくべきAIの動きをまとめて。',
   'home.by': '執筆',
+  'newsletter.title': '今日の AI を毎晩お届け',
+  'newsletter.lead': 'その日の AI の重要ニュースとブログの新着記事を、毎晩お届けします。簡潔に、出典付きで。',
+  'newsletter.email': 'メールアドレス',
+  'newsletter.submit': '登録する',
+  'newsletter.note': '1日1回。ワンクリックで配信停止できます。',
+  'nav.privacy': 'プライバシーポリシー',
 };
 
 const zh: Dict = {
@@ -429,7 +447,7 @@ const zh: Dict = {
   'blog.empty': '第一批文章即将发布。',
   'blog.translations': '本文的其他语言版本：',
   'blog.back': '← 全部文章',
-  'contact.lead': '发邮件是联系我最快的方式。告诉我你在做什么，以及我能帮上什么忙。',
+  'contact.lead': 'WhatsApp 是联系我最快的方式。告诉我你在做什么，以及我能帮上什么忙。',
   'footer.rights': '保留所有权利。',
   'footer.ai': '内容由 AI 协助创作。',
   'footer.made': '波兰制作',
@@ -445,14 +463,16 @@ const zh: Dict = {
   'post.older': '较早文章',
   'post.related': '继续阅读',
   'post.authorMore': '更多关于我',
-  'about.facts': '简介',
-  'about.location': '所在地',
-  'about.languages': '网站语言',
-  'about.elsewhere': '其他平台',
   'home.heading': '紧跟 AI 动态',
   'home.title': 'AI 资讯：模型、智能体与工具',
   'home.lead': '最新资讯、工具与事件。掌握今天 AI 领域值得了解的一切。',
   'home.by': '作者',
+  'newsletter.title': '今日 AI，每晚送达',
+  'newsletter.lead': '每晚送上当天最重要的 AI 新闻和博客新文章。简明扼要，附有来源。',
+  'newsletter.email': '你的邮箱地址',
+  'newsletter.submit': '订阅',
+  'newsletter.note': '每天一封，一键即可退订。',
+  'nav.privacy': '隐私政策',
 };
 
 export const ui: Record<Lang, Dict> = { pl, en, de, es, fr, it, ar, ja, zh };

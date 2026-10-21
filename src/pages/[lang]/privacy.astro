@@ -1,0 +1,11 @@
+---
+import View from '@/views/Privacy.astro';
+import { prefixedLangs, type Lang } from '@/i18n';
+
+export function getStaticPaths() {
+  return prefixedLangs.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+---
+
+<View lang={lang} />

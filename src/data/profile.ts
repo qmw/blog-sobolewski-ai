@@ -9,7 +9,8 @@ export const profile = {
   name: 'Your Name',
   domain: 'example.com',
   email: 'hello@example.com',
-  location: { pl: 'Polska', en: 'Poland' } as L, // TODO: city?
+  // WhatsApp link shown on the contact page; hidden while it contains TODO.
+  whatsapp: { label: '+00 000 000 000', url: 'https://wa.me/TODO' },
   // TODO: real role/headline
   role: { pl: 'Inżynier i praktyk AI', en: 'AI engineer & practitioner' } as L,
   // TODO: replace with your own one-liner
@@ -22,17 +23,6 @@ export const profile = {
     pl: 'Projektuję i wdrażam systemy oparte na modelach językowych i agentach AI. Piszę o tym, co działa w praktyce, a co jest tylko szumem.',
     en: 'I design and ship systems built on language models and AI agents. I write about what actually works in practice, and what is just noise.',
   } as L,
-  // TODO: replace with your real bio (paragraphs)
-  bio: {
-    pl: [
-      'Tu pojawi się moja historia: skąd przyszedłem, czym się zajmuję i co mnie napędza.',
-      'Tu opiszę, z kim pracuję i w czym mogę pomóc.',
-    ],
-    en: [
-      'This is where my story goes: where I come from, what I do and what drives me.',
-      'This is where I describe who I work with and how I can help.',
-    ],
-  } as { pl: string[]; en: string[] } & Partial<Record<Lang, string[]>>,
   // TODO: add/remove profiles; leave empty strings out
   socials: [
     { name: 'LinkedIn', url: 'https://www.linkedin.com/in/TODO' },
