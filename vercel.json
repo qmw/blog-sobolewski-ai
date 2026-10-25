@@ -360,6 +360,16 @@
       "permanent": false
     },
     {
+      "source": "/o-mnie",
+      "destination": "/kontakt",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(en|de|es|fr|it|ar|ja|zh)/about",
+      "destination": "/:lang/contact",
+      "permanent": true
+    },
+    {
       "source": "/wystapienia",
       "destination": "/",
       "permanent": true

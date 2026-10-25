@@ -13,11 +13,6 @@ export const profile = {
   whatsapp: { label: '+00 000 000 000', url: 'https://wa.me/TODO' },
   // TODO: real role/headline
   role: { pl: 'Inżynier i praktyk AI', en: 'AI engineer & practitioner' } as L,
-  // TODO: replace with your own one-liner
-  headline: {
-    pl: 'Buduję rozwiązania AI, które działają w prawdziwych firmach',
-    en: 'I build AI that works in real companies',
-  } as L,
   // TODO: replace with your own intro
   intro: {
     pl: 'Projektuję i wdrażam systemy oparte na modelach językowych i agentach AI. Piszę o tym, co działa w praktyce, a co jest tylko szumem.',

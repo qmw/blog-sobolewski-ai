@@ -19,7 +19,6 @@ export const prefixedLangs = langs.filter((l) => l !== defaultLang);
 
 const pages = {
   home: { pl: '/', other: '' },
-  about: { pl: '/o-mnie', other: '/about' },
   blog: { pl: '/blog', other: '/blog' },
   contact: { pl: '/kontakt', other: '/contact' },
   privacy: { pl: '/polityka-prywatnosci', other: '/privacy' },
@@ -36,7 +35,7 @@ export function routeAlternates(key: RouteKey): Record<Lang, string> {
 }
 
 /** Footer menu (the header is the newsletter sign-up). */
-export const navOrder: RouteKey[] = ['blog', 'about', 'contact'];
+export const navOrder: RouteKey[] = ['blog', 'contact'];
 
 export function postUrl(lang: Lang, slug: string) {
   return `${route('blog', lang)}/${slug}`;
@@ -61,7 +60,6 @@ export function pick<T>(value: Partial<Record<Lang, T>>, lang: Lang): T {
 }
 
 const pl = {
-  'nav.about': 'O mnie',
   'nav.blog': 'Blog',
   'nav.contact': 'Kontakt',
   'nav.home': 'Strona główna',
@@ -93,7 +91,6 @@ const pl = {
   'post.newer': 'Nowszy wpis',
   'post.older': 'Starszy wpis',
   'post.related': 'Czytaj dalej',
-  'post.authorMore': 'Więcej o mnie',
   'home.heading': 'Na bieżąco z AI',
   'home.title': 'Nowości AI: modele, agenci i narzędzia',
   'home.lead': 'Aktualne wiadomości, narzędzia, wydarzenia. Bądź na bieżąco ze wszystkim, co warto dziś wiedzieć w świecie AI.',
@@ -108,7 +105,6 @@ const pl = {
 type Dict = Record<keyof typeof pl, string>;
 
 const en: Dict = {
-  'nav.about': 'About',
   'nav.blog': 'Blog',
   'nav.contact': 'Contact',
   'nav.home': 'Home',
@@ -140,7 +136,6 @@ const en: Dict = {
   'post.newer': 'Newer post',
   'post.older': 'Older post',
   'post.related': 'Keep reading',
-  'post.authorMore': 'More about me',
   'home.heading': 'Stay current with AI',
   'home.title': 'AI news: models, agents and tools',
   'home.lead': 'The latest news, tools and events. Keep up with everything worth knowing in AI today.',
@@ -154,7 +149,6 @@ const en: Dict = {
 };
 
 const de: Dict = {
-  'nav.about': 'Über mich',
   'nav.blog': 'Blog',
   'nav.contact': 'Kontakt',
   'nav.home': 'Startseite',
@@ -186,7 +180,6 @@ const de: Dict = {
   'post.newer': 'Neuerer Beitrag',
   'post.older': 'Älterer Beitrag',
   'post.related': 'Weiterlesen',
-  'post.authorMore': 'Mehr über mich',
   'home.heading': 'Mit KI auf dem Laufenden',
   'home.title': 'KI-News: Modelle, Agenten und Tools',
   'home.lead': 'Aktuelle Nachrichten, Tools und Ereignisse. Bleib auf dem Laufenden mit allem, was heute in der KI-Welt wichtig ist.',
@@ -200,7 +193,6 @@ const de: Dict = {
 };
 
 const es: Dict = {
-  'nav.about': 'Sobre mí',
   'nav.blog': 'Blog',
   'nav.contact': 'Contacto',
   'nav.home': 'Inicio',
@@ -232,7 +224,6 @@ const es: Dict = {
   'post.newer': 'Artículo más reciente',
   'post.older': 'Artículo anterior',
   'post.related': 'Sigue leyendo',
-  'post.authorMore': 'Más sobre mí',
   'home.heading': 'Al día con la IA',
   'home.title': 'Noticias de IA: modelos, agentes y herramientas',
   'home.lead': 'Noticias, herramientas y eventos actuales. Mantente al día con todo lo que vale la pena saber hoy sobre IA.',
@@ -246,7 +237,6 @@ const es: Dict = {
 };
 
 const fr: Dict = {
-  'nav.about': 'À propos',
   'nav.blog': 'Blog',
   'nav.contact': 'Contact',
   'nav.home': 'Accueil',
@@ -278,7 +268,6 @@ const fr: Dict = {
   'post.newer': 'Article plus récent',
   'post.older': 'Article plus ancien',
   'post.related': 'À lire ensuite',
-  'post.authorMore': 'En savoir plus sur moi',
   'home.heading': 'À jour sur l\'IA',
   'home.title': 'Actualités IA : modèles, agents et outils',
   'home.lead': 'Actualités, outils et événements. Restez à jour sur tout ce qu\'il faut savoir aujourd\'hui dans le monde de l\'IA.',
@@ -292,7 +281,6 @@ const fr: Dict = {
 };
 
 const it: Dict = {
-  'nav.about': 'Chi sono',
   'nav.blog': 'Blog',
   'nav.contact': 'Contatti',
   'nav.home': 'Home',
@@ -324,7 +312,6 @@ const it: Dict = {
   'post.newer': 'Articolo più recente',
   'post.older': 'Articolo precedente',
   'post.related': 'Continua a leggere',
-  'post.authorMore': 'Più su di me',
   'home.heading': 'Aggiornato sull\'IA',
   'home.title': 'Notizie IA: modelli, agenti e strumenti',
   'home.lead': 'Notizie, strumenti ed eventi. Resta aggiornato su tutto ciò che vale la pena sapere oggi nel mondo dell\'IA.',
@@ -338,7 +325,6 @@ const it: Dict = {
 };
 
 const ar: Dict = {
-  'nav.about': 'نبذة عني',
   'nav.blog': 'المدونة',
   'nav.contact': 'تواصل',
   'nav.home': 'الرئيسية',
@@ -370,7 +356,6 @@ const ar: Dict = {
   'post.newer': 'مقال أحدث',
   'post.older': 'مقال أقدم',
   'post.related': 'تابع القراءة',
-  'post.authorMore': 'المزيد عني',
   'home.heading': 'على اطّلاع بالذكاء الاصطناعي',
   'home.title': 'أخبار الذكاء الاصطناعي: نماذج ووكلاء وأدوات',
   'home.lead': 'أحدث الأخبار والأدوات والأحداث. ابقَ على اطّلاع بكل ما يستحق المعرفة اليوم في عالم الذكاء الاصطناعي.',
@@ -384,7 +369,6 @@ const ar: Dict = {
 };
 
 const ja: Dict = {
-  'nav.about': 'プロフィール',
   'nav.blog': 'ブログ',
   'nav.contact': 'お問い合わせ',
   'nav.home': 'ホーム',
@@ -416,7 +400,6 @@ const ja: Dict = {
   'post.newer': '新しい記事',
   'post.older': '古い記事',
   'post.related': '続けて読む',
-  'post.authorMore': 'プロフィールを見る',
   'home.heading': 'AIの最新情報をキャッチ',
   'home.title': 'AIニュース：モデル、エージェント、ツール',
   'home.lead': '最新のニュース、ツール、出来事。今日知っておくべきAIの動きをまとめて。',
@@ -430,7 +413,6 @@ const ja: Dict = {
 };
 
 const zh: Dict = {
-  'nav.about': '关于我',
   'nav.blog': '博客',
   'nav.contact': '联系',
   'nav.home': '首页',
@@ -462,7 +444,6 @@ const zh: Dict = {
   'post.newer': '较新文章',
   'post.older': '较早文章',
   'post.related': '继续阅读',
-  'post.authorMore': '更多关于我',
   'home.heading': '紧跟 AI 动态',
   'home.title': 'AI 资讯：模型、智能体与工具',
   'home.lead': '最新资讯、工具与事件。掌握今天 AI 领域值得了解的一切。',

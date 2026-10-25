@@ -135,7 +135,7 @@ const navLink = (p: Post) => postUrl(lang, parseId(p.id).slug);
             <p class="display text-2xl">{profile.name}</p>
             <p class="mt-1 text-sm text-muted">{pick(profile.role, lang)}</p>
           </div>
-          <a href={route('about', lang)} class="btn btn-ghost shrink-0">{tr('post.authorMore')} →</a>
+          <a href={route('contact', lang)} class="btn btn-ghost shrink-0">{tr('cta.contact')} →</a>
         </aside>
         <div class="mt-6">
           <NewsletterForm lang={lang} />

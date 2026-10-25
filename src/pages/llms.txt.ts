@@ -17,7 +17,7 @@ export const GET: APIRoute = async ({ site }) => {
 
 > ${profile.intro.en}
 
-- [About](${abs(route('about', 'en'))}) / [O mnie](${abs(route('about', 'pl'))})
+- [Contact](${abs(route('contact', 'en'))}) / [Kontakt](${abs(route('contact', 'pl'))})
 - [Contact](${abs(route('contact', 'en'))})
 
 ${sections.join('\n\n')}
