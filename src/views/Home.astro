@@ -4,7 +4,7 @@ import Base from '@/layouts/Base.astro';
 import FeaturedPost from '@/components/FeaturedPost.astro';
 import PostRow from '@/components/PostRow.astro';
 import { type Lang, route, routeAlternates, rssUrl, t, langs, languages, postUrl } from '@/i18n';
-import { profile } from '@/data/profile';
+import { authorUrl, profile } from '@/data/profile';
 import { getPosts, parseId } from '@/lib/blog';
 
 interface Props {
@@ -40,7 +40,7 @@ const jsonLd = shown.length
     </div>
     <p class="meta mt-4 flex flex-wrap items-center gap-x-3 gap-y-1">
       <span>
-        {tr('home.by')} <a href={route('contact', lang)} class="text-fg hover:text-accent">{profile.name}</a>
+        {tr('home.by')} {authorUrl ? <a href={authorUrl} rel="me noopener" target="_blank" class="text-fg hover:text-accent">{profile.name}</a> : <span class="text-fg">{profile.name}</span>}
       </span>
       <span aria-hidden="true">·</span>
       <a href={rssUrl(lang)} class="hover:text-accent">{tr('blog.rss')}</a>

@@ -6,7 +6,7 @@ export interface Props {
   lang: Lang;
   title: string;
   description: string;
-  /** Path of this page in each language that has it, e.g. { pl: '/kontakt', en: '/en/contact', … } */
+  /** Path of this page in each language that has it, e.g. { pl: '/blog', en: '/en/blog', … } */
   alternates: Partial<Record<Lang, string>>;
   type?: 'website' | 'article';
   image?: string;

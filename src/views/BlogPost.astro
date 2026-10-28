@@ -4,7 +4,7 @@ import Base from '@/layouts/Base.astro';
 import PostRow from '@/components/PostRow.astro';
 import NewsletterForm from '@/components/NewsletterForm.astro';
 import { type Lang, route, postUrl, t, pick, formatDate, languages } from '@/i18n';
-import { profile } from '@/data/profile';
+import { authorUrl, profile } from '@/data/profile';
 import { adjacentPosts, parseId, postAlternates, readingMinutes, relatedPosts, type Post } from '@/lib/blog';
 
 interface Props {
@@ -70,7 +70,7 @@ const navLink = (p: Post) => postUrl(lang, parseId(p.id).slug);
       <h1 class="display mt-8 max-w-4xl text-4xl sm:text-6xl">{title}</h1>
       <p class="mt-6 max-w-2xl text-lg text-muted text-pretty sm:text-xl">{description}</p>
       <p class="meta mt-6 flex flex-wrap items-center gap-x-3 gap-y-1">
-        <span class="text-fg">{profile.name}</span>
+        {authorUrl ? <a href={authorUrl} rel="me noopener" target="_blank" class="text-fg hover:text-accent">{profile.name}</a> : <span class="text-fg">{profile.name}</span>}
         <time datetime={pubDate.toISOString()}>{formatDate(pubDate, lang)}</time>
         <span>{readingMinutes(post.body)} {tr('blog.minRead')}</span>
         {
@@ -130,12 +130,11 @@ const navLink = (p: Post) => postUrl(lang, parseId(p.id).slug);
             </ul>
           )
         }
-        <aside class="card mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p class="display text-2xl">{profile.name}</p>
-            <p class="mt-1 text-sm text-muted">{pick(profile.role, lang)}</p>
-          </div>
-          <a href={route('contact', lang)} class="btn btn-ghost shrink-0">{tr('cta.contact')} →</a>
+        <aside class="card mt-8">
+          <p class="display text-2xl">
+            {authorUrl ? <a href={authorUrl} rel="me noopener" target="_blank" class="hover:text-accent">{profile.name} ↗</a> : profile.name}
+          </p>
+          <p class="mt-1 text-sm text-muted">{pick(profile.role, lang)}</p>
         </aside>
         <div class="mt-6">
           <NewsletterForm lang={lang} />

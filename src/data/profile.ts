@@ -9,8 +9,6 @@ export const profile = {
   name: 'Your Name',
   domain: 'example.com',
   email: 'hello@example.com',
-  // WhatsApp link shown on the contact page; hidden while it contains TODO.
-  whatsapp: { label: '+00 000 000 000', url: 'https://wa.me/TODO' },
   // TODO: real role/headline
   role: { pl: 'Inżynier i praktyk AI', en: 'AI engineer & practitioner' } as L,
   // TODO: replace with your own intro
@@ -30,3 +28,6 @@ export const profile = {
 
 /** Socials that are filled in (placeholders marked TODO never render). */
 export const publicSocials = profile.socials.filter((s) => !s.url.includes('TODO'));
+
+/** Where the author's name links to (LinkedIn), if filled in. */
+export const authorUrl = publicSocials.find((s) => s.name === 'LinkedIn')?.url;

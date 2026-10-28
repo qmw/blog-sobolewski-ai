@@ -361,12 +361,17 @@
     },
     {
       "source": "/o-mnie",
-      "destination": "/kontakt",
+      "destination": "/",
       "permanent": true
     },
     {
-      "source": "/:lang(en|de|es|fr|it|ar|ja|zh)/about",
-      "destination": "/:lang/contact",
+      "source": "/kontakt",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(en|de|es|fr|it|ar|ja|zh)/(about|contact)",
+      "destination": "/:lang",
       "permanent": true
     },
     {

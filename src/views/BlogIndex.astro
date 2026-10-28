@@ -15,7 +15,7 @@ const posts = await getPosts(lang);
 const lead = tr('blog.lead');
 ---
 
-<Base lang={lang} title={`${tr('blog.all')} — Blog`} description={lead} alternates={routeAlternates('blog')}>
+<Base lang={lang} title={`${tr('blog.all')} — Blog`} description={tr('blog.archiveDescription')} alternates={routeAlternates('blog')}>
   <PageHeader eyebrow="Blog" title={tr('blog.all')} lead={lead}>
     <p class="mt-6">
       <a href={rssUrl(lang)} class="meta inline-flex items-center gap-1.5 hover:text-accent">

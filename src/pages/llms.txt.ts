@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
-import { profile } from '@/data/profile';
-import { langs, languages, postUrl, route } from '@/i18n';
+import { authorUrl, profile } from '@/data/profile';
+import { langs, languages, postUrl } from '@/i18n';
 import { getPosts, parseId } from '@/lib/blog';
 
 // llms.txt: a plain-text map of the site for AI assistants and answer engines.
@@ -17,9 +17,7 @@ export const GET: APIRoute = async ({ site }) => {
 
 > ${profile.intro.en}
 
-- [Contact](${abs(route('contact', 'en'))}) / [Kontakt](${abs(route('contact', 'pl'))})
-- [Contact](${abs(route('contact', 'en'))})
-
+${authorUrl ? `- [LinkedIn](${authorUrl})\n` : ''}
 ${sections.join('\n\n')}
 `;
   return new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });

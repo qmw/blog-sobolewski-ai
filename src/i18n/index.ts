@@ -20,7 +20,6 @@ export const prefixedLangs = langs.filter((l) => l !== defaultLang);
 const pages = {
   home: { pl: '/', other: '' },
   blog: { pl: '/blog', other: '/blog' },
-  contact: { pl: '/kontakt', other: '/contact' },
   privacy: { pl: '/polityka-prywatnosci', other: '/privacy' },
 } as const;
 export type RouteKey = keyof typeof pages;
@@ -35,7 +34,7 @@ export function routeAlternates(key: RouteKey): Record<Lang, string> {
 }
 
 /** Footer menu (the header is the newsletter sign-up). */
-export const navOrder: RouteKey[] = ['blog', 'contact'];
+export const navOrder: RouteKey[] = ['blog'];
 
 export function postUrl(lang: Lang, slug: string) {
   return `${route('blog', lang)}/${slug}`;
@@ -61,7 +60,6 @@ export function pick<T>(value: Partial<Record<Lang, T>>, lang: Lang): T {
 
 const pl = {
   'nav.blog': 'Blog',
-  'nav.contact': 'Kontakt',
   'nav.home': 'Strona główna',
   'nav.skip': 'Przejdź do treści',
   'nav.menu': 'Menu',
@@ -69,6 +67,7 @@ const pl = {
   'theme.toggle': 'Przełącz motyw',
   'blog.heading': 'Notatki z praktyki AI',
   'blog.lead': 'Co nowego w AI: modele, agenci, narzędzia. Sam to testuję i piszę o tym, co robi wrażenie i co możesz wypróbować już dziś.',
+  'blog.archiveDescription': 'Archiwum wszystkich artykułów o AI: premiery modeli, agenci, porównania i poradniki do narzędzi. Od najnowszych.',
   'blog.all': 'Wszystkie artykuły',
   'blog.latest': 'Najnowsze artykuły',
   'blog.minRead': 'min czytania',
@@ -76,12 +75,10 @@ const pl = {
   'blog.empty': 'Pierwsze artykuły już wkrótce.',
   'blog.translations': 'Ten artykuł w innych językach:',
   'blog.back': '← Wszystkie artykuły',
-  'contact.lead': 'Najszybciej złapiesz mnie na WhatsAppie. Napisz, nad czym pracujesz i w czym mogę pomóc.',
   'footer.rights': 'Wszelkie prawa zastrzeżone.',
   'footer.ai': 'Treści współtworzone z AI.',
   'footer.made': 'Zrobione w Polsce',
   'footer.oss': 'Ta strona jest dostępna open source',
-  'cta.contact': 'Napisz do mnie',
   'cta.blog': 'Czytaj bloga',
   '404.title': 'Nie ma takiej strony',
   '404.body': 'Strona mogła zostać przeniesiona albo nigdy nie istniała.',
@@ -106,7 +103,6 @@ type Dict = Record<keyof typeof pl, string>;
 
 const en: Dict = {
   'nav.blog': 'Blog',
-  'nav.contact': 'Contact',
   'nav.home': 'Home',
   'nav.skip': 'Skip to content',
   'nav.menu': 'Menu',
@@ -114,6 +110,7 @@ const en: Dict = {
   'theme.toggle': 'Toggle theme',
   'blog.heading': 'Notes from AI practice',
   'blog.lead': 'What is new in AI: models, agents and tools. I try them myself and write about what impresses and what you can try today.',
+  'blog.archiveDescription': 'Archive of every article on AI: model launches, agents, comparisons and hands-on tool guides. Newest first.',
   'blog.all': 'All articles',
   'blog.latest': 'Latest articles',
   'blog.minRead': 'min read',
@@ -121,12 +118,10 @@ const en: Dict = {
   'blog.empty': 'First articles coming soon.',
   'blog.translations': 'This article in other languages:',
   'blog.back': '← All articles',
-  'contact.lead': 'WhatsApp is the fastest way to reach me. Tell me what you are working on and how I can help.',
   'footer.rights': 'All rights reserved.',
   'footer.ai': 'Content co-created with AI.',
   'footer.made': 'Made in Poland',
   'footer.oss': 'This site is open source',
-  'cta.contact': 'Get in touch',
   'cta.blog': 'Read the blog',
   '404.title': 'Page not found',
   '404.body': 'The page may have moved, or it never existed.',
@@ -150,7 +145,6 @@ const en: Dict = {
 
 const de: Dict = {
   'nav.blog': 'Blog',
-  'nav.contact': 'Kontakt',
   'nav.home': 'Startseite',
   'nav.skip': 'Zum Inhalt springen',
   'nav.menu': 'Menü',
@@ -158,6 +152,7 @@ const de: Dict = {
   'theme.toggle': 'Farbschema wechseln',
   'blog.heading': 'Notizen aus der KI-Praxis',
   'blog.lead': 'Was es Neues in der KI gibt: Modelle, Agenten, Tools. Ich probiere sie selbst aus und schreibe, was beeindruckt und was man heute schon testen kann.',
+  'blog.archiveDescription': 'Archiv aller Artikel über KI: neue Modelle, Agenten, Vergleiche und praktische Tool-Anleitungen. Die neuesten zuerst.',
   'blog.all': 'Alle Artikel',
   'blog.latest': 'Neueste Artikel',
   'blog.minRead': 'Min. Lesezeit',
@@ -165,12 +160,10 @@ const de: Dict = {
   'blog.empty': 'Die ersten Artikel erscheinen bald.',
   'blog.translations': 'Dieser Artikel in anderen Sprachen:',
   'blog.back': '← Alle Artikel',
-  'contact.lead': 'Am schnellsten erreichen Sie mich über WhatsApp. Erzählen Sie mir, woran Sie arbeiten und wobei ich helfen kann.',
   'footer.rights': 'Alle Rechte vorbehalten.',
   'footer.ai': 'Inhalte mit KI erstellt.',
   'footer.made': 'Made in Poland',
   'footer.oss': 'Diese Website ist Open Source',
-  'cta.contact': 'Kontakt aufnehmen',
   'cta.blog': 'Zum Blog',
   '404.title': 'Seite nicht gefunden',
   '404.body': 'Die Seite wurde verschoben oder hat nie existiert.',
@@ -194,7 +187,6 @@ const de: Dict = {
 
 const es: Dict = {
   'nav.blog': 'Blog',
-  'nav.contact': 'Contacto',
   'nav.home': 'Inicio',
   'nav.skip': 'Saltar al contenido',
   'nav.menu': 'Menú',
@@ -202,6 +194,7 @@ const es: Dict = {
   'theme.toggle': 'Cambiar tema',
   'blog.heading': 'Notas desde la práctica de la IA',
   'blog.lead': 'Lo nuevo en IA: modelos, agentes y herramientas. Los pruebo yo mismo y escribo sobre lo que impresiona y lo que puedes probar hoy.',
+  'blog.archiveDescription': 'Archivo de todos los artículos sobre IA: lanzamientos de modelos, agentes, comparativas y guías prácticas. Los más recientes primero.',
   'blog.all': 'Todos los artículos',
   'blog.latest': 'Últimos artículos',
   'blog.minRead': 'min de lectura',
@@ -209,12 +202,10 @@ const es: Dict = {
   'blog.empty': 'Los primeros artículos llegarán pronto.',
   'blog.translations': 'Este artículo en otros idiomas:',
   'blog.back': '← Todos los artículos',
-  'contact.lead': 'WhatsApp es la forma más rápida de contactarme. Cuéntame en qué trabajas y cómo puedo ayudarte.',
   'footer.rights': 'Todos los derechos reservados.',
   'footer.ai': 'Contenido creado con IA.',
   'footer.made': 'Hecho en Polonia',
   'footer.oss': 'Este sitio es de código abierto',
-  'cta.contact': 'Escríbeme',
   'cta.blog': 'Leer el blog',
   '404.title': 'Página no encontrada',
   '404.body': 'Puede que la página se haya movido o que nunca haya existido.',
@@ -238,7 +229,6 @@ const es: Dict = {
 
 const fr: Dict = {
   'nav.blog': 'Blog',
-  'nav.contact': 'Contact',
   'nav.home': 'Accueil',
   'nav.skip': 'Aller au contenu',
   'nav.menu': 'Menu',
@@ -246,6 +236,7 @@ const fr: Dict = {
   'theme.toggle': 'Changer de thème',
   'blog.heading': "Notes de terrain sur l'IA",
   'blog.lead': 'Les nouveautés de l\'IA : modèles, agents, outils. Je les teste moi-même et j\'écris sur ce qui impressionne et ce que vous pouvez essayer dès aujourd\'hui.',
+  'blog.archiveDescription': 'Archives de tous les articles sur l\'IA : sorties de modèles, agents, comparatifs et guides pratiques. Les plus récents d\'abord.',
   'blog.all': 'Tous les articles',
   'blog.latest': 'Derniers articles',
   'blog.minRead': 'min de lecture',
@@ -253,12 +244,10 @@ const fr: Dict = {
   'blog.empty': 'Les premiers articles arrivent bientôt.',
   'blog.translations': 'Cet article dans d’autres langues :',
   'blog.back': '← Tous les articles',
-  'contact.lead': 'WhatsApp est le moyen le plus rapide de me joindre. Dites-moi sur quoi vous travaillez et comment je peux aider.',
   'footer.rights': 'Tous droits réservés.',
   'footer.ai': "Contenu co-créé avec l'IA.",
   'footer.made': 'Fait en Pologne',
   'footer.oss': 'Ce site est open source',
-  'cta.contact': 'Me contacter',
   'cta.blog': 'Lire le blog',
   '404.title': 'Page introuvable',
   '404.body': "La page a peut-être été déplacée, ou elle n'a jamais existé.",
@@ -282,7 +271,6 @@ const fr: Dict = {
 
 const it: Dict = {
   'nav.blog': 'Blog',
-  'nav.contact': 'Contatti',
   'nav.home': 'Home',
   'nav.skip': 'Vai al contenuto',
   'nav.menu': 'Menu',
@@ -290,6 +278,7 @@ const it: Dict = {
   'theme.toggle': 'Cambia tema',
   'blog.heading': "Appunti dalla pratica dell'IA",
   'blog.lead': 'Le novità dell\'IA: modelli, agenti e strumenti. Li provo io stesso e scrivo di ciò che colpisce e di ciò che puoi provare già oggi.',
+  'blog.archiveDescription': 'Archivio di tutti gli articoli sull\'IA: nuovi modelli, agenti, confronti e guide pratiche agli strumenti. Dai più recenti.',
   'blog.all': 'Tutti gli articoli',
   'blog.latest': 'Articoli recenti',
   'blog.minRead': 'min di lettura',
@@ -297,12 +286,10 @@ const it: Dict = {
   'blog.empty': 'I primi articoli arriveranno presto.',
   'blog.translations': 'Questo articolo in altre lingue:',
   'blog.back': '← Tutti gli articoli',
-  'contact.lead': 'WhatsApp è il modo più rapido per contattarmi. Raccontami a cosa lavori e come posso aiutarti.',
   'footer.rights': 'Tutti i diritti riservati.',
   'footer.ai': "Contenuti creati con l'IA.",
   'footer.made': 'Fatto in Polonia',
   'footer.oss': 'Questo sito è open source',
-  'cta.contact': 'Scrivimi',
   'cta.blog': 'Leggi il blog',
   '404.title': 'Pagina non trovata',
   '404.body': 'La pagina potrebbe essere stata spostata o non essere mai esistita.',
@@ -326,7 +313,6 @@ const it: Dict = {
 
 const ar: Dict = {
   'nav.blog': 'المدونة',
-  'nav.contact': 'تواصل',
   'nav.home': 'الرئيسية',
   'nav.skip': 'انتقل إلى المحتوى',
   'nav.menu': 'القائمة',
@@ -334,6 +320,7 @@ const ar: Dict = {
   'theme.toggle': 'تبديل المظهر',
   'blog.heading': 'ملاحظات من ممارسة الذكاء الاصطناعي',
   'blog.lead': 'جديد الذكاء الاصطناعي: نماذج ووكلاء وأدوات. أجرّبها بنفسي وأكتب عمّا يبهر وما يمكنك تجربته اليوم.',
+  'blog.archiveDescription': 'أرشيف جميع المقالات عن الذكاء الاصطناعي: إطلاقات النماذج والوكلاء والمقارنات وأدلة الأدوات العملية. الأحدث أولاً.',
   'blog.all': 'كل المقالات',
   'blog.latest': 'أحدث المقالات',
   'blog.minRead': 'دقائق قراءة',
@@ -341,12 +328,10 @@ const ar: Dict = {
   'blog.empty': 'المقالات الأولى قريبًا.',
   'blog.translations': 'هذا المقال بلغات أخرى:',
   'blog.back': '→ كل المقالات',
-  'contact.lead': 'واتساب هو أسرع طريقة للتواصل معي. أخبرني بما تعمل عليه وكيف يمكنني المساعدة.',
   'footer.rights': 'جميع الحقوق محفوظة.',
   'footer.ai': 'محتوى أُنشئ بمساعدة الذكاء الاصطناعي.',
   'footer.made': 'صُنع في بولندا',
   'footer.oss': 'هذا الموقع مفتوح المصدر',
-  'cta.contact': 'تواصل معي',
   'cta.blog': 'اقرأ المدونة',
   '404.title': 'الصفحة غير موجودة',
   '404.body': 'ربما نُقلت الصفحة أو لم تكن موجودة أصلًا.',
@@ -370,7 +355,6 @@ const ar: Dict = {
 
 const ja: Dict = {
   'nav.blog': 'ブログ',
-  'nav.contact': 'お問い合わせ',
   'nav.home': 'ホーム',
   'nav.skip': '本文へスキップ',
   'nav.menu': 'メニュー',
@@ -378,6 +362,7 @@ const ja: Dict = {
   'theme.toggle': 'テーマを切り替え',
   'blog.heading': 'AI実践ノート',
   'blog.lead': 'AIの最新動向：モデル、エージェント、ツール。自分で試し、何がすごいのか、今日から何を試せるのかを書いています。',
+  'blog.archiveDescription': 'AIに関する全記事のアーカイブ：新モデルの発表、エージェント、比較、ツールの実践ガイド。新しい順に掲載。',
   'blog.all': 'すべての記事',
   'blog.latest': '最新の記事',
   'blog.minRead': '分で読めます',
@@ -385,12 +370,10 @@ const ja: Dict = {
   'blog.empty': '最初の記事はまもなく公開します。',
   'blog.translations': 'この記事の他の言語版:',
   'blog.back': '← すべての記事',
-  'contact.lead': 'WhatsApp が最も早い連絡方法です。取り組んでいることと、私にできることを教えてください。',
   'footer.rights': 'All rights reserved.',
   'footer.ai': 'AIと共同で作成しています。',
   'footer.made': 'ポーランド製',
   'footer.oss': 'このサイトはオープンソースです',
-  'cta.contact': '連絡する',
   'cta.blog': 'ブログを読む',
   '404.title': 'ページが見つかりません',
   '404.body': 'ページが移動したか、存在しなかった可能性があります。',
@@ -414,7 +397,6 @@ const ja: Dict = {
 
 const zh: Dict = {
   'nav.blog': '博客',
-  'nav.contact': '联系',
   'nav.home': '首页',
   'nav.skip': '跳到正文',
   'nav.menu': '菜单',
@@ -422,6 +404,7 @@ const zh: Dict = {
   'theme.toggle': '切换主题',
   'blog.heading': 'AI 实践笔记',
   'blog.lead': 'AI 的最新动态：模型、智能体和工具。我亲自试用，写下令人印象深刻的内容，以及你今天就能尝试的东西。',
+  'blog.archiveDescription': '全部 AI 文章归档：模型发布、智能体、对比评测和工具实操指南，按时间从新到旧排列。',
   'blog.all': '全部文章',
   'blog.latest': '最新文章',
   'blog.minRead': '分钟阅读',
@@ -429,12 +412,10 @@ const zh: Dict = {
   'blog.empty': '第一批文章即将发布。',
   'blog.translations': '本文的其他语言版本：',
   'blog.back': '← 全部文章',
-  'contact.lead': 'WhatsApp 是联系我最快的方式。告诉我你在做什么，以及我能帮上什么忙。',
   'footer.rights': '保留所有权利。',
   'footer.ai': '内容由 AI 协助创作。',
   'footer.made': '波兰制作',
   'footer.oss': '本网站已开源',
-  'cta.contact': '联系我',
   'cta.blog': '阅读博客',
   '404.title': '页面不存在',
   '404.body': '该页面可能已被移动，或从未存在。',
